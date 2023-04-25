@@ -22,15 +22,14 @@ public:
   static std::shared_ptr<sf::RenderWindow> getWin();
 
 
-  template<typename T>
-  static std::shared_ptr<T> createComponent();
+  template<typename T, typename...T_Args>
+  static std::shared_ptr<T> createComponent(T_Args && ... args);
 };
 
-template <typename T>
-std::shared_ptr<T> BSE::createComponent()
-{
-  std::shared_ptr<T> comp = std::make_shared<T>();
-  return comp;
+template<typename T, typename...T_Args>
+std::shared_ptr<T> BSE::createComponent(T_Args && ... args) {
+    return std::make_shared<T>(std::forward<T_Args>(args)...);
 }
+
 
 #endif // !DEBUG
