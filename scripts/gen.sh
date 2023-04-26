@@ -1,2 +1,2 @@
 cd ..
-cmake  --preset=cl-x86_64-windows-msvc
+cmake  --preset=gcc-x86_64-linux-gnu

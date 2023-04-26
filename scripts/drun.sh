@@ -1,5 +1,5 @@
 cd ..
-cmake --build --preset=cl-x86_64-windows-msvc-debug
-cd .out/cl-x86_64-windows-msvc/Debug
+cmake --build --preset= gcc-x86_64-linux-gnu-debug
+cd .out/gcc-x86_64-linux-gnu
 ./BSE2
 
