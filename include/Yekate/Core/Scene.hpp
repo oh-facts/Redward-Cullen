@@ -2,8 +2,11 @@
 #define SCENE_HPP
 
 #include <vector>
-#include <Entity.hpp>
+#include <Yekate/Core/Entity.hpp>
 #include <memory>
+
+namespace Yekate
+{
 class Scene{
 public:
   int m_id;
@@ -14,5 +17,6 @@ public:
   void addEntity(std::shared_ptr<Entity>);
   ~Scene(){};
 };
+}
 
 #endif // !DEBUG

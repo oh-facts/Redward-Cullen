@@ -4,5 +4,8 @@
 
 #include <SFML/Window/Keyboard.hpp>
 
+namespace Yekate
+{
 bool isKeyHeld(sf::Keyboard::Key key);
+}
 #endif 

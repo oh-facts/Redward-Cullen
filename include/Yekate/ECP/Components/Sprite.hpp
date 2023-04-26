@@ -1,12 +1,11 @@
 #ifndef SPRITE_HPP
 #define SPRITE_HPP
 
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <Component.hpp>
-//
+#include <Yekate/Core/Component.hpp>
+#include <Yekate/ECP/Properties/Transform.hpp>
 
+namespace Yekate
+{
 class Sprite : public Component
   {
   public:
@@ -19,5 +18,6 @@ class Sprite : public Component
     void render() override;
   };
 
+}
 
 #endif // !SPRITE_HPP

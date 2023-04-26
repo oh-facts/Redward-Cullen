@@ -1,33 +1,33 @@
-#include <Sprite.hpp>
-#include <BSE.hpp>
-#include <Input.hpp>
+#include <Yekate.hpp>
 
-
-
-
+using namespace Yekate;
 
 class Movement : public Component 
   {
   public:
     Transform &m_transform;
+    const float speed = 300.f;
 
     Movement(Transform& transform):
-      m_transform(transform){}
+      m_transform(transform){
+  
+    }
 
     void update() override{
+       
     if(isKeyHeld(sf::Keyboard::A)){
-        m_transform.pos.x--;
+        m_transform.pos.x-=speed*Time::delta;
       }
     else if(isKeyHeld(sf::Keyboard::D)){
-        m_transform.pos.x++;
+        m_transform.pos.x+=speed*Time::delta;
       }
     else if(isKeyHeld(sf::Keyboard::W))
       {
-        m_transform.pos.y--;
+        m_transform.pos.y-=speed*Time::delta;
       }
     else if(isKeyHeld(sf::Keyboard::S))
       {
-        m_transform.pos.y++ ;
+        m_transform.pos.y +=speed*Time::delta;
       }
     }
 
@@ -35,32 +35,32 @@ class Movement : public Component
 
 int main()
 {
-  BSE::innit(800,600,"Redward Cullen Engine");
+  YKE::innit();
 
   
   Transform pt;
-  pt.pos.x = 5;
-  pt.pos.y = 5;
+  pt.pos.x = 0;
+  pt.pos.y = 0;
 
 
-  auto scene = BSE::createScene();
+  auto scene = YKE::createScene();
  
-  auto player = BSE::createEntity();
+  auto player = YKE::createEntity();
 
-  auto playerMovement = BSE::createComponent<Movement>(pt);
+  auto playerMovement = YKE::createComponent<Movement>(pt);
   
 
   player->addComponent(playerMovement);
 
   scene.addEntity(player);
    
-  auto playerSprite = BSE::createComponent<Sprite>("res/Sandbox/mascot.png",pt);
+  auto playerSprite = YKE::createComponent<Sprite>("res/Sandbox/mascot.png",pt);
 
   player->addComponent(playerSprite);
   printf("%d",scene.m_id);
-  BSE::setScene(scene);
+  YKE::setScene(scene);
 
-  BSE::run();
+  YKE::run();
 
   return 0;
 }

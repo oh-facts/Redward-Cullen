@@ -7,9 +7,10 @@ include(cmake/warnings.cmake)
 project(BSE2 VERSION 0.1.0)
 
 include_directories("include")
-add_executable(${PROJECT_NAME} "sandbox/main.cpp" "src/BSE.cpp" "src/Scene.cpp" 
-                               "src/Input.cpp" "src/Entity.cpp" 
-                               "src/Sprite.cpp")
+
+add_executable(${PROJECT_NAME} "sandbox/main.cpp" "src/Core/YKE.cpp" "src/Core/Scene.cpp" 
+                                "src/Core/Input.cpp" "src/Core/Entity.cpp" 
+                                "src/ECP/Components/Sprite.cpp" "src/Utility/Time.cpp")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 set_project_warnings(${PROJECT_NAME})
 

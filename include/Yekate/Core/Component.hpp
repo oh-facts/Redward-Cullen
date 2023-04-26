@@ -2,15 +2,15 @@
 #define COMPONENT_HPP
 #include <SFML/Graphics.hpp>
 
-class Component
+namespace Yekate
 {
-  public:
-   virtual void update(){};
-    virtual void render(){};
-};
-
-typedef struct Transform
+class Component
   {
-    sf::Vector2f pos;
-  } Transform;
+  public:
+    virtual void update(){};
+    virtual void render(){};
+    virtual ~Component(){};
+  };
+
+}
 #endif // !COMPONENT_HPP

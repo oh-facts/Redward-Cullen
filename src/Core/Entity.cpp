@@ -1,6 +1,8 @@
-#include "Component.hpp"
-#include <Entity.hpp>
+#include <Yekate/Core/Component.hpp>
+#include <Yekate/Core/Entity.hpp>
 
+namespace Yekate
+{
 void Entity::update()
 {
   for(const auto& comp: m_comps)
@@ -22,4 +24,4 @@ void Entity::addComponent(std::shared_ptr<Component> comp)
 {
   m_comps.push_back(comp);
 }
-
+}
