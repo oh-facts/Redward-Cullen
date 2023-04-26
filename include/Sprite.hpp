@@ -4,13 +4,20 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
-class Sprite
+#include <Component.hpp>
+//
+
+class Sprite : public Component
   {
-    sf::Sprite m_sprite;
-    sf::Texture m_texture;
   public:
-    Sprite(std::string);
-    void draw(sf::Vector2f); 
+
+    sf::Sprite m_sprite; 
+    sf::Texture m_texture;
+    Transform &m_transform;
+
+    Sprite(std::string, Transform& transform);
+    void render() override;
   };
+
 
 #endif // !SPRITE_HPP

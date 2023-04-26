@@ -32,9 +32,9 @@ void BSE::run()
   while (m_win->isOpen())
     {
       sf::Event event;
-      while (m_win->pollEvent(event))
+      while (m_win->pollEvent(event) )
         {
-          if (event.type == sf::Event::Closed)
+          if (event.type == sf::Event::Closed|| sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             m_win->close();
         }
 

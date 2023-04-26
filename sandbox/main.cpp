@@ -1,26 +1,17 @@
-#include "Entity.hpp"
-#include "Scene.hpp"
-#include "Sprite.hpp"
+#include <Sprite.hpp>
 #include <BSE.hpp>
 #include <Input.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <filesystem>
-
-
-struct transform
-  {
-    sf::Vector2f pos;
-  };
 
 
 
-class ControlComponent : public Component 
+
+
+class Movement : public Component 
   {
   public:
-    transform &m_transform;
+    Transform &m_transform;
 
-    ControlComponent(transform& transform):
+    Movement(Transform& transform):
       m_transform(transform){}
 
     void update() override{
@@ -32,30 +23,14 @@ class ControlComponent : public Component
       }
     else if(isKeyHeld(sf::Keyboard::W))
       {
-        m_transform.pos.y++;
+        m_transform.pos.y--;
       }
     else if(isKeyHeld(sf::Keyboard::S))
       {
-        m_transform.pos.y --;
+        m_transform.pos.y++ ;
       }
     }
 
-  };
-class SpriteComponent : public Component
-  {
-  public:
-    Sprite &m_sprite;
-    transform &m_transform;
-
-    SpriteComponent(Sprite& sprite, transform& transform):
-      m_sprite(sprite),m_transform(transform)
-    {
-    }
-
-    void render() override
-    {
-      m_sprite.draw(m_transform.pos); 
-    }
   };
 
 int main()
@@ -63,25 +38,25 @@ int main()
   BSE::innit(800,600,"Redward Cullen Engine");
 
   
-  struct transform pt;
+  Transform pt;
   pt.pos.x = 5;
   pt.pos.y = 5;
 
 
   auto scene = BSE::createScene();
+ 
+  auto player = BSE::createEntity();
+
+  auto playerMovement = BSE::createComponent<Movement>(pt);
   
-  auto playerInput = BSE::createComponent<ControlComponent>(pt);
-  auto entity = BSE::createEntity();
-  
 
-  entity->addComponent(playerInput);
+  player->addComponent(playerMovement);
 
-  scene.addEntity(entity);
+  scene.addEntity(player);
+   
+  auto playerSprite = BSE::createComponent<Sprite>("res/Sandbox/mascot.png",pt);
 
-  Sprite sp("res/Sandbox/mascot.png");
-  auto die = BSE::createComponent<SpriteComponent>(sp,pt);
-
-  entity->addComponent(die);
+  player->addComponent(playerSprite);
   printf("%d",scene.m_id);
   BSE::setScene(scene);
 

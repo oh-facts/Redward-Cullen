@@ -1,5 +1,6 @@
 #ifndef COMPONENT_HPP
 #define COMPONENT_HPP
+#include <SFML/Graphics.hpp>
 
 class Component
 {
@@ -8,5 +9,8 @@ class Component
     virtual void render(){};
 };
 
-
+typedef struct Transform
+  {
+    sf::Vector2f pos;
+  } Transform;
 #endif // !COMPONENT_HPP

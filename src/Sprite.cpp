@@ -3,8 +3,11 @@
 #include <SFML/System/Vector2.hpp>
 #include <Sprite.hpp>
 #include <BSE.hpp>
-Sprite::Sprite(std::string filepath)
+
+Sprite::Sprite(std::string filepath, Transform& transform):
+  m_transform(transform)
 {
+
   if(!m_texture.loadFromFile(filepath))
   {
     printf("couldn't load");
@@ -12,8 +15,9 @@ Sprite::Sprite(std::string filepath)
   m_sprite.setTexture(m_texture);
 }
 
-void Sprite::draw(sf::Vector2f pos)
+void Sprite::render()
 {
-      m_sprite.setPosition(pos);
-      BSE::getWin()->draw(m_sprite); 
+  m_sprite.setPosition(m_transform.pos);
+  BSE::getWin()->draw(m_sprite); 
 }
+
