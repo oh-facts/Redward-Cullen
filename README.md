@@ -1,12 +1,25 @@
-# BSE2 - Redward Cullen Engine
+# Yekate
 
-The BSE2 or the Redward Cullen Engine is a massive improvement over its predecessor BSE (Ball Square Engine).
+Yekate is the successor of Ball;Square, my previous engine. So, you can call Yekate as BS2 if you want.
 
-The biggest upgrade is that it can not only render balls and squares but also regular sprites.
+It uses sfml for now and uses an ECS paradigm, although its quite different from regular ECS. Main reason being that I need to make more games with it before I can decide what architecture suits it best. Its very simple to use and very modular.
 
-While its perfectly cross platform, I haven't made scripts for to build it on linux and mac.
+While its perfectly cross platform, I haven't been able to get it to run on my WSL Ubuntu due to vcpkg related issues. I think its a WSL issue and it should ideally work. (Test and lmk)
 
-For windows, just go to scripts and run gen.bat (first time set-up), then drun.bat (debug build) or run.bat (release build)
+# Build Instructions
+### Windows
+Go to the scripts folder and run ```gen.bat``` (first time set-up)
+
+Then, ```drun.bat``` (debug build)
+
+or ```run.bat``` (release build)
+
+### Linux
+Go to the scripts folder and run ```gen.sh``` (first time set-up)
+
+Then, ```drun.sh``` (debug build)
+
+
 
 You need vcpkg and you need to set the VCPKG_ROOT variable.
 
