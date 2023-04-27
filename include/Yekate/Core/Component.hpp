@@ -7,6 +7,7 @@ namespace Yekate
 class Component
   {
   public:
+    virtual void start(){};
     virtual void update(){};
     virtual void render(){};
     virtual ~Component(){};

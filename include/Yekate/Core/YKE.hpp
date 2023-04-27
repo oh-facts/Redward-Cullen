@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <Yekate/Utility/Time.hpp>
+#include <Yekate/Core/Input.hpp>
 
 namespace Yekate
 {

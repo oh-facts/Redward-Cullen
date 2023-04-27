@@ -1,4 +1,8 @@
+#include "Yekate/Core/Input.hpp"
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <Yekate/Core/YKE.hpp>
+#include <iostream>
 #include <memory>
 
 namespace Yekate
@@ -34,18 +38,24 @@ void YKE::run()
 {
   sf::Clock clock;
   
+  for(const auto& entity: m_currentScene->m_entities)
+      {
+        entity->start();
+      }
+
+
   while (m_win->isOpen())
     {
       sf::Event event;
-      sf::Time elapsed = clock.restart();
-      Time::delta = elapsed.asSeconds();
+      Time::delta = clock.restart().asSeconds();
 
       while (m_win->pollEvent(event) )
         {
-          if (event.type == sf::Event::Closed|| sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+          if (event.type == sf::Event::Closed|| event.key.code == sf::Keyboard::Escape)
             m_win->close();
+
         }
-      
+
 
       for(const auto& entity: m_currentScene->m_entities)
       {
@@ -88,7 +98,7 @@ std::shared_ptr<Entity> YKE::createEntity()
 void YKE::setWindow(unsigned int x, unsigned int y, const char *title)
 {
   m_win->setSize(sf::Vector2(x,y));
-  m_win->setView(sf::View(sf::FloatRect(0, 0, m_win->getSize().x, m_win->getSize().y)));
+  //m_win->setView(sf::View(sf::FloatRect(0, 0, m_win->getSize().x, m_win->getSize().y)));
   m_win->setTitle(title);
 
 }

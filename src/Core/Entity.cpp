@@ -3,6 +3,14 @@
 
 namespace Yekate
 {
+
+void Entity::start()
+{
+  for(const auto& comp: m_comps)
+  {
+    comp->start();
+  }
+}
 void Entity::update()
 {
   for(const auto& comp: m_comps)
