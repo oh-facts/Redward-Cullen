@@ -28,8 +28,12 @@ public:
   static std::shared_ptr<Entity> createEntity();
   static std::shared_ptr<sf::RenderWindow> getWin();
   static void renderingThread();
-static std::mutex m_mutex;
+  
+  static std::mutex mut;
+  static std::atomic<bool> lockRenderThread;
 
+  static void toggleFullscreen();
+  static bool isFullscreen;
 
   template<typename T, typename...T_Args>
   static std::shared_ptr<T> createComponent(T_Args && ... args);

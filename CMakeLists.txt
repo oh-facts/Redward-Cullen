@@ -10,8 +10,9 @@ include_directories("include")
 
 add_executable(${PROJECT_NAME} "sandbox/main.cpp" "src/Core/YKE.cpp" "src/Core/Scene.cpp" 
                                 "src/Core/Input.cpp" "src/Core/Entity.cpp" 
-                                "src/ECP/Components/Sprite.cpp" "src/Utility/Time.cpp"
-                                "src/ECP/Components/Camera.cpp")
+                                "src/EC/Components/SpriteRenderer.cpp" "src/Utility/Time.cpp"
+                                "src/EC/Components/Camera.cpp" "src/Core/Physics.cpp"
+                                "src/EC/Components/BoxCollider.cpp")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 set_project_warnings(${PROJECT_NAME})
 

@@ -2,6 +2,6 @@
 
 
 #include <Yekate/Core.hpp>
-#include <Yekate/ECP.hpp>
+#include <Yekate/EC.hpp>
 #endif // !YEKATE_HPP
 

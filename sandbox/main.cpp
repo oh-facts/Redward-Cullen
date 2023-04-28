@@ -1,35 +1,16 @@
-#include "Yekate/Core/Component.hpp"
-#include "Yekate/Core/Input.hpp"
-#include "Yekate/ECP/Components/Camera.hpp"
-#include "Yekate/Utility/Time.hpp"
 #include <Yekate.hpp>
 #include <iostream>
 
 using namespace Yekate;
 
-class Reset: public Component
-  {
-  public:
-    Transform &m_transform;
-    Transform temp;
-    Reset(Transform& transform):m_transform(transform),temp(transform){}
-    void update() override
-    {
-
-      if(Input::isKeyHeld(sf::Keyboard::Q))
-      {
-        m_transform = temp;
-      }
-    }
-  };
 class Movement : public Component 
   {
   public:
-    Transform &m_transform;
+    sf::Vector2f &m_pos;
     const float speed = 300.f;
 
-    Movement(Transform& transform):
-      m_transform(transform){
+    Movement(sf::Vector2f& pos):
+      m_pos(pos){
       timer = 0;
       jumpDuration = 0.2f;
       isJumping = false;
@@ -40,10 +21,10 @@ class Movement : public Component
     void update() override{
       timer+=Time::delta;
       if(Input::isKeyHeld(sf::Keyboard::A)){
-        m_transform.pos.x-=speed*Time::delta;
+        m_pos.x-=speed*Time::delta;
       }
     else if(Input::isKeyHeld(sf::Keyboard::D)){
-        m_transform.pos.x+=speed*Time::delta;
+        m_pos.x+=speed*Time::delta;
       }
       if(Input::isKeyTapped(sf::Keyboard::Space) && !isJumping)
       {
@@ -54,7 +35,7 @@ class Movement : public Component
       timer+=Time::delta;
       if(timer<jumpDuration && isJumping)
       {
-        m_transform.pos.y-=3000*Time::delta;
+        m_pos.y-=3000*Time::delta;
       }
     else if(timer > jumpDuration)
       {
@@ -70,13 +51,13 @@ class Gravity : public Component
   {
   public:
     const float gf = 500;
-    Transform &m_transform;
+    sf::Vector2f& m_pos;
 
-    Gravity(Transform& transform):m_transform(transform){}
+    Gravity(sf::Vector2f &pos):m_pos(pos){}
 
     void update() override{
-      if(m_transform.pos.y<600)
-        m_transform.pos.y += gf*Time::delta;
+      if(m_pos.y<600)
+        m_pos.y += gf*Time::delta;
     }
   };
 
@@ -84,16 +65,16 @@ class Slide : public Component
 {
   public:
     float timer = 0;
-    Transform &m_transform;
+    sf::Vector2f &m_pos;
 
-    Slide(Transform& transform):m_transform(transform){}
+    Slide(sf::Vector2f& pos):m_pos(pos){}
     void update() override{
     timer+=Time::delta;
     if(timer<2.5){
-        m_transform.pos.x+=300*Time::delta;
+        m_pos.x+=300*Time::delta;
       }
     else if(timer>2.5 && timer <5){
-        m_transform.pos.x-=300*Time::delta;
+        m_pos.x-=300*Time::delta;
       }
     else if(timer>5){
         timer = 0;
@@ -105,58 +86,59 @@ int main()
 {
   YKE::innit();
 
-
-  Transform pt;
-  pt.pos.x = 60;
-  pt.pos.y = 60;
-
-
-  auto scene = YKE::createScene();
-
   auto player = YKE::createEntity();
 
-  auto playerMovement = YKE::createComponent<Movement>(pt);
-  auto gravity = YKE::createComponent<Gravity>(pt);
+  sf::Vector2f py_pos(60,60);
+  sf::Vector2f py_box_size(50,50);
 
+  auto playerMovement = YKE::createComponent<Movement>(py_pos);
+  auto gravity = YKE::createComponent<Gravity>(py_pos);
+  auto playerSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/airplane.png",py_pos);
+  auto playerCollider = YKE::createComponent<BoxCollider>(py_pos,py_box_size);
+
+  playerSprite->layer = 10;
+
+  player->addComponent(playerSprite);
+  player->addComponent(playerCollider);
   player->addComponent(gravity);
   player->addComponent(playerMovement);
 
+
+
+  auto scene = YKE::createScene();
   scene.addEntity(player);
 
-  auto playerSprite = YKE::createComponent<Sprite>("res/Sandbox/airplane.png",pt);
+  // --- //
 
-  player->addComponent(playerSprite);
-  printf("%d",scene.m_id);
-
+  sf::Vector2f camPos(960/2,540/2);
   auto camera = YKE::createEntity();
-  auto camComp = YKE::createComponent<Camera>(pt);
+  
+  auto camComp = YKE::createComponent<Camera>(camPos);
   camera->addComponent(camComp);
 
   scene.addEntity(camera);
 
-  Transform towerPos;
-  towerPos.pos.x = 300;
-  towerPos.pos.y = 200;
+  // --- //
+  
+  sf::Vector2f towerPos(100,200);
 
-  auto tower = YKE::createEntity();
-  auto towerSprite = YKE::createComponent<Sprite>("res/Sandbox/mascot.png", towerPos);
+  auto tower = YKE::createEntity(); 
+  
+  auto towerSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/mascot.png", towerPos);
+  
+
+  sf::Vector2f towerSize(towerSprite->m_sprite.getGlobalBounds().width,towerSprite->m_sprite.getGlobalBounds().height);
+  auto towerCollider = YKE::createComponent<BoxCollider>(towerPos,towerSize);
+  
+
   tower->addComponent(towerSprite);
+  tower->addComponent(towerCollider);
+
   scene.addEntity(tower);
   
-  auto SlideComp = YKE::createComponent<Slide>(towerPos);
-  //tower->addComponent(SlideComp);
-
-
-  auto flappyGame = YKE::createEntity();
-  auto resetSystem = YKE::createComponent<Reset>(pt);
-  flappyGame->addComponent(resetSystem);
-  scene.addEntity(flappyGame);
-    
-
-
+  // --- //
 
   YKE::setScene(scene);
-
   YKE::run();
 
   return 0;

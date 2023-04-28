@@ -3,7 +3,7 @@
 
 #include "Yekate/Core/Component.hpp"
 #include <SFML/Graphics/View.hpp>
-#include <Yekate/ECP/Properties/Transform.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace Yekate
 {
@@ -11,9 +11,9 @@ namespace Yekate
 class Camera: public Component
   {
     sf::View m_view;
-    Transform& m_transform;
+    sf::Vector2f& m_pos; 
   public:
-    Camera(Transform&);
+    Camera(sf::Vector2f&);
     void update() override;
     void render() override;
   };

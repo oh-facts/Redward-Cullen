@@ -1,24 +1,23 @@
 #include "Yekate/Core/YKE.hpp"
-#include <Yekate/ECP/Components/Camera.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <Yekate/EC/Components/Camera.hpp>
 #include <iostream>
 namespace Yekate
 {
 
-Camera::Camera(Transform& transform):m_transform(transform) 
+Camera::Camera(sf::Vector2f& pos):m_pos(pos) 
 {
-
   m_view.reset(sf::FloatRect(0, 0, YKE::getWin()->getSize().x, YKE::getWin()->getSize().y));
 }
 
 void Camera::render()
 {
-
   YKE::getWin()->setView(m_view);
-  m_view.setCenter(m_transform.pos.x,m_transform.pos.y);
 }
 
 void Camera::update()
 {
+  m_view.setCenter(m_pos.x,m_pos.y);
 }
 
 }

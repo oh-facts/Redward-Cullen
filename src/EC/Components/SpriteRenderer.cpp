@@ -1,14 +1,14 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <Yekate/ECP/Components/Sprite.hpp>
+#include <Yekate/EC/Components/SpriteRenderer.hpp>
 #include <Yekate/Core/YKE.hpp>
 
 namespace Yekate
 {
 
-Sprite::Sprite(std::string filepath, Transform& transform):
-  m_transform(transform)
+SpriteRenderer::SpriteRenderer(std::string filepath, sf::Vector2f &pos):
+  m_pos(pos)
 {
 
   if(!m_texture.loadFromFile(filepath))
@@ -20,9 +20,9 @@ Sprite::Sprite(std::string filepath, Transform& transform):
   m_sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-void Sprite::render()
+void SpriteRenderer::render()
 {
-  m_sprite.setPosition(m_transform.pos);
+  m_sprite.setPosition(m_pos);
   YKE::getWin()->draw(m_sprite); 
 }
 }

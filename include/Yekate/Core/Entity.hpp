@@ -16,7 +16,22 @@ class Entity{
   void update();
   void render();
   void addComponent(std::shared_ptr<Component>);
+template <typename T>
+T* getComponent();
+
 };
+
+template <typename T>
+T* Entity::getComponent() {
+
+  for (auto& component : m_comps) {
+        if (typeid(*component) == typeid(T)) {
+            return static_cast<T*>(component.get());
+        }
+    }
+
+    return nullptr;
+}
 }
 
 #endif // !ENTITY_HPP
