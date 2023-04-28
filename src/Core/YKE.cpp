@@ -1,4 +1,5 @@
 #include "Yekate/Core/Input.hpp"
+#include <SFML/System/Thread.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <Yekate/Core/YKE.hpp>
@@ -15,6 +16,9 @@ std::shared_ptr<Scene> YKE::m_currentScene = std::make_shared<Scene>();
 sf::Image YKE::m_icon = sf::Image();
 
 int YKE::m_totalScenes = 0;
+
+std::mutex YKE::m_mutex{};
+
 
 YKE::YKE(){}
 
@@ -37,12 +41,16 @@ void YKE::innit()
 void YKE::run()
 {
   sf::Clock clock;
-  
-  for(const auto& entity: m_currentScene->m_entities)
-      {
-        entity->start();
-      }
 
+  m_win->setActive(false);
+
+  sf::Thread thread(&renderingThread);
+  thread.launch();
+
+  for(const auto& entity: m_currentScene->m_entities)
+  {
+    entity->start();
+  }
 
   while (m_win->isOpen())
     {
@@ -56,12 +64,21 @@ void YKE::run()
 
         }
 
-
       for(const auto& entity: m_currentScene->m_entities)
       {
         entity->update();
       }
+    }
 
+}
+
+void YKE::renderingThread()
+{
+  m_win->setActive(true);
+
+
+  while (m_win->isOpen())
+    {
 
       m_win->clear();
 

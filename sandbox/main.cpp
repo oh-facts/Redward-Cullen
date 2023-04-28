@@ -1,3 +1,4 @@
+#include "Yekate/Core/Component.hpp"
 #include "Yekate/Core/Input.hpp"
 #include "Yekate/ECP/Components/Camera.hpp"
 #include "Yekate/Utility/Time.hpp"
@@ -79,6 +80,27 @@ class Gravity : public Component
     }
   };
 
+class Slide : public Component
+{
+  public:
+    float timer = 0;
+    Transform &m_transform;
+
+    Slide(Transform& transform):m_transform(transform){}
+    void update() override{
+    timer+=Time::delta;
+    if(timer<2.5){
+        m_transform.pos.x+=300*Time::delta;
+      }
+    else if(timer>2.5 && timer <5){
+        m_transform.pos.x-=300*Time::delta;
+      }
+    else if(timer>5){
+        timer = 0;
+      }
+    }
+  };
+
 int main()
 {
   YKE::innit();
@@ -120,6 +142,10 @@ int main()
   auto towerSprite = YKE::createComponent<Sprite>("res/Sandbox/mascot.png", towerPos);
   tower->addComponent(towerSprite);
   scene.addEntity(tower);
+  
+  auto SlideComp = YKE::createComponent<Slide>(towerPos);
+  //tower->addComponent(SlideComp);
+
 
   auto flappyGame = YKE::createEntity();
   auto resetSystem = YKE::createComponent<Reset>(pt);

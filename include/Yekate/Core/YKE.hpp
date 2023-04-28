@@ -7,6 +7,7 @@
 #include <memory>
 #include <Yekate/Utility/Time.hpp>
 #include <Yekate/Core/Input.hpp>
+#include <mutex>
 
 namespace Yekate
 {
@@ -26,6 +27,8 @@ public:
   static void setScene(const Scene&);
   static std::shared_ptr<Entity> createEntity();
   static std::shared_ptr<sf::RenderWindow> getWin();
+  static void renderingThread();
+static std::mutex m_mutex;
 
 
   template<typename T, typename...T_Args>

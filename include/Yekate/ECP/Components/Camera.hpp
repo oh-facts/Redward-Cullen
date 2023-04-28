@@ -15,6 +15,7 @@ class Camera: public Component
   public:
     Camera(Transform&);
     void update() override;
+    void render() override;
   };
 }
 
