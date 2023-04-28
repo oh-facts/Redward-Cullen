@@ -2,7 +2,30 @@
 
 Yekate is the successor of Ball;Square, my previous engine. So, you can call Yekate as BS2 if you want.
 
-It uses sfml for now and uses an ECS paradigm, although its quite different from regular ECS. Main reason being that I need to make more games with it before I can decide what architecture suits it best. Its very simple to use and very modular.
+The only library used is sfml because it can handle drawing, windowing and audio. Everything else is written by me.
+
+### Features (oversimplified)
+
+1. Very simple and modular. Uses Components and is very decoupled.
+
+2. Rendering and logic on separate threads. A 2D engine so there wont ever be a case where graphics would ever be a bottleneck, but still, I did it because I could.
+
+3. Sprites, Entity-Component, collisions, scenes.
+
+
+
+### To Do
+
+1. Audio and gui. You can call sfml bindinigs to get them to work, but there is no engine support yet
+
+2. Sprite Masking. For custom colliders
+
+3. Event System
+
+4. Develop current features further
+
+Check the wiki for detailed explanations and exact feature list.
+
 
 While its perfectly cross platform, I haven't been able to get it to run on my WSL Ubuntu due to vcpkg related issues. I think its a WSL issue and it should ideally work. (Test and lmk)
 
