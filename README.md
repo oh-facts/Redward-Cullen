@@ -10,7 +10,7 @@ The only library used is sfml because it can handle drawing, windowing and audio
 
 2. Rendering and logic on separate threads. A 2D engine so there wont ever be a case where graphics would ever be a bottleneck, but still, I did it because I could.
 
-3. Sprites, Entity-Component, collisions, scenes.
+3. Sprites, ortho camera, input, Entity-Component, box collisions, scenes.
 
 
 
