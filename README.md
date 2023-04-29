@@ -6,9 +6,11 @@ The only library used is sfml because it can handle drawing, windowing and audio
 
 ### Features (oversimplified)
 
-1. Very simple and modular. Uses Components and is very decoupled.
+1. Very easy to use and modular. Uses Components and is very decoupled.
 
-2. Rendering and logic on separate threads. A 2D engine so there wont ever be a case where graphics would ever be a bottleneck, but still, I did it because I could.
+2. Cross platform
+
+3. Rendering and logic on separate threads. A 2D engine so there wont ever be a case where graphics would ever be a bottleneck, but still, I did it because I could.
 
 3. Sprites, ortho camera, input, Entity-Component, box collisions, scenes.
 
@@ -27,7 +29,7 @@ The only library used is sfml because it can handle drawing, windowing and audio
 Check the wiki for detailed explanations and exact feature list.
 
 
-While its perfectly cross platform, I haven't been able to get it to run on my WSL Ubuntu due to vcpkg related issues. I think its a WSL issue and it should ideally work. (Test and lmk)
+While its perfectly cross platform, I haven't been able to get it to run on my WSL Ubuntu due to vcpkg related issues. I think its a WSL issue and it should definitely work. (Test and lmk)
 
 # Build Instructions
 ### Windows
