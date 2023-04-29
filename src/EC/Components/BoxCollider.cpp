@@ -1,3 +1,4 @@
+#include "Yekate/Core/Window.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <Yekate/EC/Components/BoxCollider.hpp>
 #include <Yekate/Core/YKE.hpp>
@@ -7,9 +8,9 @@ void BoxCollider::update()
 {
   m_box.setPosition(m_pos);
 }
-void BoxCollider::render()
+void BoxCollider::render(Window& win)
 {
-  YKE::getWin()->draw(m_box); 
+  win.draw(m_box); 
 }
 
 void BoxCollider::start()

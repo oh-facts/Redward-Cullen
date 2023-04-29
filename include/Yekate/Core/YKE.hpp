@@ -1,6 +1,7 @@
 #ifndef YKE_HPP
 #define YKE_HPP
 
+#include "Yekate/Core/Window.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <Yekate/Core/Scene.hpp>
 #include <SFML/Graphics.hpp>
@@ -15,9 +16,9 @@ namespace Yekate
 class YKE{
 private:
   static sf::Image m_icon;
-  static std::shared_ptr<sf::RenderWindow> m_win;
   static std::shared_ptr<Scene> m_currentScene;
   static int m_totalScenes;
+  static Window m_window; 
   YKE();
 public:
   static void innit();
@@ -26,7 +27,6 @@ public:
   static Scene createScene();
   static void setScene(const Scene&);
   static std::shared_ptr<Entity> createEntity();
-  static std::shared_ptr<sf::RenderWindow> getWin();
   static void renderingThread();
   
   static std::mutex mut;

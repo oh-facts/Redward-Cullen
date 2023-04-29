@@ -17,7 +17,7 @@ class SpriteRenderer : public Component
 
     SpriteRenderer(std::string, sf::Vector2f& pos);
     
-    void render() override;
+    void render(Window&) override;
   };
 
 }

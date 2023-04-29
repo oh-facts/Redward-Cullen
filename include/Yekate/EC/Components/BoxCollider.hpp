@@ -4,6 +4,7 @@
 #include "Yekate/Core/Component.hpp"
 #include "Yekate/EC/Components/SpriteRenderer.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 
 namespace Yekate
@@ -23,7 +24,7 @@ class BoxCollider:public Component
 
     void start() override;
     void update() override;
-    void render() override;
+    void render(Window&) override;
   };
 
 }

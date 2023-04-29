@@ -1,6 +1,7 @@
 #include "Yekate/Core/Entity.hpp"
 #include "Yekate/Core/Input.hpp"
 #include "Yekate/Core/Physics.hpp"
+#include "Yekate/Core/Window.hpp"
 #include "Yekate/EC/Components/SpriteRenderer.hpp"
 #include <SFML/System/Thread.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -15,8 +16,6 @@
 namespace Yekate
 {
 
-std::shared_ptr<sf::RenderWindow> YKE::m_win = std::make_shared<sf::RenderWindow>();
-
 std::shared_ptr<Scene> YKE::m_currentScene = std::make_shared<Scene>();
 
 sf::Image YKE::m_icon = sf::Image();
@@ -26,32 +25,33 @@ int YKE::m_totalScenes = 0;
 std::atomic<bool> YKE::lockRenderThread(false);
 std::mutex YKE::mut;
 
+Window YKE::m_window = Window();
 
 YKE::YKE(){}
 
 void YKE::innit()
 {
-  m_win->create(sf::VideoMode(1280, 720), "Yekate2D");
-
-  sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-  m_win->setPosition(sf::Vector2i(desktop.width/2 - m_win->getSize().x/2, desktop.height/2 - m_win->getSize().y/2));
-
-
-  if (!m_icon.loadFromFile("res/Engine/icon/mascot.png")) {
-    // Error loading the icon
-  }
-
-  m_win->setIcon(m_icon.getSize().x, m_icon.getSize().y, m_icon.getPixelsPtr());
-
+  m_window.create(1280,720,"Yekate");
 }
 
+bool compareEntitiesByLayer(const std::shared_ptr<Yekate::Entity> a, const std::shared_ptr<Yekate::Entity> b ) {
+  auto spriteA = a->getComponent<SpriteRenderer>();
+  auto spriteB = b->getComponent<SpriteRenderer>();
+  if(spriteA && spriteB )
+  {
+    return spriteA->layer < spriteB->layer;
+  }
+
+  return false;
+}
 void YKE::run()
 {
   sf::Clock clock;
 
   Physics physEngine;
 
-  m_win->setActive(false);
+  std::sort(m_currentScene->m_entities.begin(), m_currentScene->m_entities.end(), compareEntitiesByLayer);
+  m_window.setActive(false);
 
   sf::Thread thread(&renderingThread);
   thread.launch();
@@ -61,92 +61,68 @@ void YKE::run()
     entity->start();
   }
 
-  while (m_win->isOpen())
+  while (m_window.isOpen())
     {
       sf::Event event;
       Time::delta = clock.restart().asSeconds();
 
-      while (m_win->pollEvent(event) )
+      while (m_window.poll(event) )
         {
           if (event.type == sf::Event::Closed|| event.key.code == sf::Keyboard::Escape)
-            m_win->close();
+            m_window.close();
           else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter && event.key.alt)
             {
               mut.lock();
               lockRenderThread = true;
-              m_win->setActive(true);
-              // Toggle fullscreen mode on alt+enter
-              if (m_win->isOpen() && m_win->hasFocus())
-              {
-                if (m_win->getSize() == sf::Vector2u(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height))
-                {
-                  m_win->create(sf::VideoMode(1280, 720), "Yekate2D", sf::Style::Titlebar | sf::Style::Close);
-                }
-              else
-                {
-                  m_win->create(sf::VideoMode::getDesktopMode(), "Window Title", sf::Style::Fullscreen);
-                }
 
-                m_win->setActive(false);
-                lockRenderThread = false;
-                mut.unlock();
-              }
+              m_window.setActive(true);
+              m_window.toggleFullScreen();
+              m_window.setActive(false);
+
+              lockRenderThread = false;
+              mut.unlock();
             }
         }
-
       physEngine.update(m_currentScene->m_entities);
 
       for(const auto& entity: m_currentScene->m_entities)
       {  
         entity->update();
       }
-
     }
 
-}
-bool compareEntitiesByLayer(const std::shared_ptr<Yekate::Entity> a, const std::shared_ptr<Yekate::Entity> b ) {
-    auto spriteA = a->getComponent<SpriteRenderer>();
-    auto spriteB = b->getComponent<SpriteRenderer>();
-    if(spriteA && spriteB )
-  {
-    return spriteA->layer < spriteB->layer;
-  }
 
-    return false;
 }
+
 void YKE::renderingThread()
 {
-  m_win->setActive(true);
+  m_window.setActive(true);
 
 
- std::sort(m_currentScene->m_entities.begin(), m_currentScene->m_entities.end(), compareEntitiesByLayer);
 
-  while (m_win->isOpen())
+  while (m_window.isOpen())
     {
       mut.lock();
       if(!lockRenderThread)
       {
-        m_win->setActive(true);  
+        m_window.setActive(true);  
 
-        m_win->clear();
+        m_window.clear();
 
 
         for(const auto& entity: m_currentScene->m_entities)
         {
-          entity->render();
+          entity->render(m_window);
         }
 
-        m_win->display();
+        m_window.display();
       }
     else
       {
-        m_win->setActive(false);
+        m_window.setActive(false);
       }
       mut.unlock();
     }
-
-
-
 }
 
 Scene YKE::createScene()
@@ -167,27 +143,7 @@ std::shared_ptr<Entity> YKE::createEntity()
   return entity;
 }
 
-
-void YKE::setWindow(unsigned int x, unsigned int y, const char *title)
-{
-  m_win->setSize(sf::Vector2(x,y));
-  //m_win->setView(sf::View(sf::FloatRect(0, 0, m_win->getSize().x, m_win->getSize().y)));
-  m_win->setTitle(title);
-
 }
-
-
-std::shared_ptr<sf::RenderWindow> YKE::getWin()
-{
-  return m_win;
-}
-
-}  
-
-
-
-
-
 
 
 

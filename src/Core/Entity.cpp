@@ -1,3 +1,4 @@
+#include "Yekate/Core/Window.hpp"
 #include <Yekate/Core/Component.hpp>
 #include <Yekate/Core/Entity.hpp>
 
@@ -19,11 +20,11 @@ void Entity::update()
   }
 }
 
-void Entity::render()
+void Entity::render(Window& win)
 {
   for(const auto& comp: m_comps)
   {
-    comp->render();
+    comp->render(win);
   }
 }
 

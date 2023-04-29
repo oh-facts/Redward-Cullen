@@ -1,6 +1,7 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
+#include "Yekate/Core/Window.hpp"
 #include <Yekate/Core/Component.hpp>
 #include <memory>
 #include <vector>
@@ -14,7 +15,7 @@ class Entity{
   
   void start();
   void update();
-  void render();
+  void render(Window&);
   void addComponent(std::shared_ptr<Component>);
 template <typename T>
 T* getComponent();

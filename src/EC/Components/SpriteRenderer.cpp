@@ -3,6 +3,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <Yekate/EC/Components/SpriteRenderer.hpp>
 #include <Yekate/Core/YKE.hpp>
+#include <iostream>
 
 namespace Yekate
 {
@@ -20,9 +21,9 @@ SpriteRenderer::SpriteRenderer(std::string filepath, sf::Vector2f &pos):
   m_sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-void SpriteRenderer::render()
+void SpriteRenderer::render(Window& win)
 {
   m_sprite.setPosition(m_pos);
-  YKE::getWin()->draw(m_sprite); 
+  win.draw(m_sprite); 
 }
 }

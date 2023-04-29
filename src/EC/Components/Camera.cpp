@@ -7,12 +7,12 @@ namespace Yekate
 
 Camera::Camera(sf::Vector2f& pos):m_pos(pos) 
 {
-  m_view.reset(sf::FloatRect(0, 0, YKE::getWin()->getSize().x, YKE::getWin()->getSize().y));
+  m_view.setSize(1280,720);
 }
 
-void Camera::render()
+void Camera::render(Window& win)
 {
-  YKE::getWin()->setView(m_view);
+  win.setView(m_view);
 }
 
 void Camera::update()

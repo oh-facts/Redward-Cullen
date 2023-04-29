@@ -15,7 +15,7 @@ class Camera: public Component
   public:
     Camera(sf::Vector2f&);
     void update() override;
-    void render() override;
+    void render(Window&) override;
   };
 }
 
