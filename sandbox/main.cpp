@@ -113,7 +113,7 @@ int main()
   sf::Vector2f camPos(960/2,540/2);
   auto camera = YKE::createEntity();
   
-  auto camComp = YKE::createComponent<Camera>(camPos);
+  auto camComp = YKE::createComponent<Camera>(py_pos);
   camera->addComponent(camComp);
 
   scene.addEntity(camera);
