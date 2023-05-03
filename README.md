@@ -1,6 +1,6 @@
-# Yekate
+# Redward Cullen
 
-Yekate is the successor of Ball;Square, my previous engine. So, you can call Yekate as BS2 if you want.
+The successor of Ball;Square, my previous engine. So, you can call it BS2
 
 The only library used is sfml because it can handle drawing, windowing and audio. Everything else is written by me.
 
