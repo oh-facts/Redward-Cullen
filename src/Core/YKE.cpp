@@ -18,8 +18,6 @@ namespace Yekate
 
 std::shared_ptr<Scene> YKE::m_currentScene = std::make_shared<Scene>();
 
-sf::Image YKE::m_icon = sf::Image();
-
 int YKE::m_totalScenes = 0;
 
 std::atomic<bool> YKE::lockRenderThread(false);
@@ -50,7 +48,7 @@ void YKE::run()
 
   Physics physEngine;
 
-  std::sort(m_currentScene->m_entities.begin(), m_currentScene->m_entities.end(), compareEntitiesByLayer);
+  //std::sort(m_currentScene->m_entitiesR.begin(), m_currentScene->m_entitiesR.end(), compareEntitiesByLayer);
   m_window.setActive(false);
 
   sf::Thread thread(&renderingThread);
@@ -83,7 +81,7 @@ void YKE::run()
               mut.unlock();
             }
         }
-      physEngine.update(m_currentScene->m_entities);
+      physEngine.update(m_currentScene->m_entitiesP);
 
       for(const auto& entity: m_currentScene->m_entities)
       {  
@@ -93,6 +91,8 @@ void YKE::run()
 
 
 }
+
+
 
 void YKE::renderingThread()
 {
@@ -137,10 +137,12 @@ void YKE::setScene(const Scene& scene)
   m_currentScene = std::make_shared<Scene>(scene); 
 }
 
-std::shared_ptr<Entity> YKE::createEntity()
+std::shared_ptr<Entity> YKE::createEntity(const char* name)
 {
   std::shared_ptr<Entity> entity = std::make_shared<Entity>();
+  entity->m_name = name;
   return entity;
+
 }
 
 }

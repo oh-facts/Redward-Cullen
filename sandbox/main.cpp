@@ -1,8 +1,13 @@
+#include "Yekate/Core/Component.hpp"
+#include "Yekate/EC/Components/SpriteRenderer.hpp"
+#include "Yekate/EC/Components/Transform.hpp"
+#include "Yekate/Utility/Time.hpp"
+#include <SFML/System/Vector2.hpp>
 #include <Yekate.hpp>
 #include <iostream>
 
 using namespace Yekate;
-
+/*
 class Movement : public Component 
   {
   public:
@@ -46,7 +51,53 @@ class Movement : public Component
     }
 
   };
+*/
 
+
+sf::Vector2f normalize(sf::Vector2f vec)
+{
+  float length = std::sqrt(vec.x * vec.x + vec.y * vec.y);
+  if (length != 0)
+    return sf::Vector2f(vec.x / length, vec.y / length);
+  return vec;
+}
+
+class freeMove : public Component
+  {
+  public:
+    const float speed = 300;
+    sf::Vector2f move_input;
+    std::shared_ptr<Transform> m_trans;
+
+    freeMove(std::shared_ptr<Transform> hi) : m_trans(hi)
+    {
+
+    }
+
+    void update() override{
+
+      move_input = sf::Vector2f(0,0);
+
+      if(Input::isKeyHeld(sf::Keyboard::A)){
+        move_input.x = -1;
+      }
+      if(Input::isKeyHeld(sf::Keyboard::D)){
+        move_input.x = 1;
+      }
+      if(Input::isKeyHeld(sf::Keyboard::W)){
+        move_input.y = -1;
+      }
+      if(Input::isKeyHeld(sf::Keyboard::S)){
+        move_input.y = 1;
+      }
+      move_input = normalize(move_input); 
+
+      m_trans->move(speed*Time::delta*move_input);
+ 
+    }
+
+  };
+/*
 class Gravity : public Component
   {
   public:
@@ -81,62 +132,78 @@ class Slide : public Component
       }
     }
   };
-
+*/
 int main()
 {
   YKE::innit();
 
-  auto player = YKE::createEntity();
+  auto player = YKE::createEntity("player");
 
-  sf::Vector2f py_pos(60,60);
-  sf::Vector2f py_box_size(50,50);
+  sf::Vector2f py_box_size(20,5);
 
-  auto playerMovement = YKE::createComponent<Movement>(py_pos);
-  auto gravity = YKE::createComponent<Gravity>(py_pos);
-  auto playerSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/airplane.png",py_pos);
-  auto playerCollider = YKE::createComponent<BoxCollider>(py_pos,py_box_size);
+  auto playerTransform = YKE::createComponent<Transform>();
 
-  playerSprite->layer = 10;
+  playerTransform->m_pos = sf::Vector2f(300,300);
+  //auto playerMovement = YKE::createComponent<Movement>(playerTransform);
+  auto debugMv = YKE::createComponent<freeMove>(playerTransform);
 
-  player->addComponent(playerSprite);
+  //auto gravity = YKE::createComponent<Gravity>(py_pos);
+  //auto playerSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/airplane.png",py_pos);
+  auto playerCollider = YKE::createComponent<BoxCollider>(playerTransform,py_box_size);
+
+  //playerSprite->layer = 10;
+
+  //player->addComponent(playerSprite);
   player->addComponent(playerCollider);
-  player->addComponent(gravity);
-  player->addComponent(playerMovement);
+  //player->addComponent(gravity);
+  
+  player->addComponent(debugMv);
 
 
 
   auto scene = YKE::createScene();
   scene.addEntity(player);
-
+// printf("works upto here");
   // --- //
 
-  sf::Vector2f camPos(960/2,540/2);
-  auto camera = YKE::createEntity();
-  
-  auto camComp = YKE::createComponent<Camera>(py_pos);
+  auto camera = YKE::createEntity("my camera");
+
+  auto camComp = YKE::createComponent<Camera>(playerTransform);
   camera->addComponent(camComp);
 
   scene.addEntity(camera);
 
   // --- //
-  
-  sf::Vector2f towerPos(100,200);
+// printf("works upto here");
 
-  auto tower = YKE::createEntity(); 
-  
-  auto towerSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/mascot.png", towerPos);
-  
 
-  sf::Vector2f towerSize(towerSprite->m_sprite.getGlobalBounds().width,towerSprite->m_sprite.getGlobalBounds().height);
-  auto towerCollider = YKE::createComponent<BoxCollider>(towerPos,towerSize);
-  
+  auto tower = YKE::createEntity("tower"); 
+  //  auto towerSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/mascot.png", towerPos);
 
-  tower->addComponent(towerSprite);
+
+  //  sf::Vector2f towerSize(towerSprite->m_sprite.getGlobalBounds().width,towerSprite->m_sprite.getGlobalBounds().height);
+  sf::Vector2f towerSize(40,40); 
+  auto towerTransform = YKE::createComponent<Transform>();
+
+  towerTransform->m_pos = sf::Vector2f(0,0);
+  auto towerCollider = YKE::createComponent<BoxCollider>(towerTransform,towerSize);
+
+
+  //tower->addComponent(towerSprite);
   tower->addComponent(towerCollider);
 
   scene.addEntity(tower);
-  
+
   // --- //
+
+  sf::Vector2f objectPos(400,400);
+  auto debugObject = YKE::createEntity("debug obj");
+  auto debugSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/mascot.png", objectPos);
+  debugObject->addComponent(debugSprite);
+
+  scene.addEntity(debugObject);
+
+
 
   YKE::setScene(scene);
   YKE::run();

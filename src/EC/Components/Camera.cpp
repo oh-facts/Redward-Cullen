@@ -2,10 +2,11 @@
 #include <SFML/System/Vector2.hpp>
 #include <Yekate/EC/Components/Camera.hpp>
 #include <iostream>
+#include <memory>
 namespace Yekate
 {
 
-Camera::Camera(sf::Vector2f& pos):m_pos(pos) 
+Camera::Camera(std::shared_ptr<Transform> pos):m_pos(pos) 
 {
   m_view.setSize(1280,720);
 }
@@ -17,7 +18,7 @@ void Camera::render(Window& win)
 
 void Camera::update()
 {
-  m_view.setCenter(m_pos.x,m_pos.y);
+  m_view.setCenter(m_pos->m_pos.x,m_pos->m_pos.y);
 }
 
 }

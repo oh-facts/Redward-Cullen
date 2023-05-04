@@ -14,6 +14,9 @@ public:
   Scene(){};
 
   std::vector<std::shared_ptr<Entity>> m_entities;
+  std::vector<std::shared_ptr<Entity>> m_entitiesR;
+  std::vector<std::shared_ptr<Entity>> m_entitiesP;
+
   void addEntity(std::shared_ptr<Entity>);
   void reset();
   ~Scene(){};

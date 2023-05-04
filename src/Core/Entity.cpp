@@ -1,6 +1,6 @@
 #include "Yekate/Core/Window.hpp"
-#include <Yekate/Core/Component.hpp>
 #include <Yekate/Core/Entity.hpp>
+#include <memory>
 
 namespace Yekate
 {
@@ -31,6 +31,7 @@ void Entity::render(Window& win)
 
 void Entity::addComponent(std::shared_ptr<Component> comp)
 {
+  comp->m_parent =getptr();
   m_comps.push_back(comp);
 }
 }

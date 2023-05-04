@@ -3,6 +3,7 @@
 
 #include "Yekate/Core/Component.hpp"
 #include "Yekate/EC/Components/SpriteRenderer.hpp"
+#include "Yekate/EC/Components/Transform.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -13,14 +14,18 @@ namespace Yekate
 class BoxCollider:public Component
   {
     public:
-    sf::Vector2f &m_pos;
+    std::shared_ptr<Transform> trans;
     sf::Vector2f &m_size;
+    
 
     sf::RectangleShape m_box;
     
     bool isColliding;
 
-    BoxCollider(sf::Vector2f& pos, sf::Vector2f& size):m_pos(pos),m_size(size){}
+    BoxCollider(std::shared_ptr<Transform> pos, sf::Vector2f& size):trans(pos),m_size(size){m_parent = nullptr;}
+
+    sf::Vector2f collisionDirection;
+    void resetCollision();
 
     void start() override;
     void update() override;
