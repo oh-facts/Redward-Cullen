@@ -21,10 +21,6 @@ public:
   static Scene createScene();
   static void setScene(const Scene&);
   
-  static std::shared_ptr<Entity> createEntity(const char* name);
-  template<typename T, typename...T_Args>
-  static std::shared_ptr<T> createComponent(T_Args && ... args);
-  
   static void toggleFullscreen();
 
 
@@ -38,10 +34,6 @@ private:
   YKE();
 };
 
-template<typename T, typename...T_Args>
-std::shared_ptr<T> YKE::createComponent(T_Args && ... args) {
-  return std::make_shared<T>(std::forward<T_Args>(args)...);
-}
 }
 
 

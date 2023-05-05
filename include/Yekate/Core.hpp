@@ -6,5 +6,6 @@
 #include <Yekate/Core/Entity.hpp>
 #include <Yekate/Core/Input.hpp>
 #include <Yekate/Core/Scene.hpp>
+#include <Yekate/Core/YEC.hpp>
 #endif // !CORE_HPP
 

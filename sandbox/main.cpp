@@ -137,19 +137,19 @@ int main()
 {
   YKE::innit();
 
-  auto player = YKE::createEntity("player");
+  auto player = YEC::createEntity("player");
 
   sf::Vector2f py_box_size(20,5);
 
-  auto playerTransform = YKE::createComponent<Transform>();
+  auto playerTransform = YEC::createComponent<Transform>();
 
   playerTransform->m_pos = sf::Vector2f(300,300);
   //auto playerMovement = YKE::createComponent<Movement>(playerTransform);
-  auto debugMv = YKE::createComponent<freeMove>(playerTransform);
+  auto debugMv = YEC::createComponent<freeMove>(playerTransform);
 
   //auto gravity = YKE::createComponent<Gravity>(py_pos);
   //auto playerSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/airplane.png",py_pos);
-  auto playerCollider = YKE::createComponent<BoxCollider>(playerTransform,py_box_size);
+  auto playerCollider = YEC::createComponent<BoxCollider>(playerTransform,py_box_size);
 
   //playerSprite->layer = 10;
 
@@ -166,9 +166,9 @@ int main()
 // printf("works upto here");
   // --- //
 
-  auto camera = YKE::createEntity("my camera");
+  auto camera = YEC::createEntity("my camera");
 
-  auto camComp = YKE::createComponent<Camera>(playerTransform);
+  auto camComp = YEC::createComponent<Camera>(playerTransform);
   camera->addComponent(camComp);
 
   scene.addEntity(camera);
@@ -177,16 +177,16 @@ int main()
 // printf("works upto here");
 
 
-  auto tower = YKE::createEntity("tower"); 
+  auto tower = YEC::createEntity("tower"); 
   //  auto towerSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/mascot.png", towerPos);
 
 
   //  sf::Vector2f towerSize(towerSprite->m_sprite.getGlobalBounds().width,towerSprite->m_sprite.getGlobalBounds().height);
   sf::Vector2f towerSize(40,40); 
-  auto towerTransform = YKE::createComponent<Transform>();
+  auto towerTransform = YEC::createComponent<Transform>();
 
   towerTransform->m_pos = sf::Vector2f(0,0);
-  auto towerCollider = YKE::createComponent<BoxCollider>(towerTransform,towerSize);
+  auto towerCollider = YEC::createComponent<BoxCollider>(towerTransform,towerSize);
 
 
   //tower->addComponent(towerSprite);
@@ -197,8 +197,8 @@ int main()
   // --- //
 
   sf::Vector2f objectPos(400,400);
-  auto debugObject = YKE::createEntity("debug obj");
-  auto debugSprite = YKE::createComponent<SpriteRenderer>("res/Sandbox/mascot.png", objectPos);
+  auto debugObject = YEC::createEntity("debug obj");
+  auto debugSprite = YEC::createComponent<SpriteRenderer>("res/Sandbox/mascot.png", objectPos);
   debugObject->addComponent(debugSprite);
 
   scene.addEntity(debugObject);

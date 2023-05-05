@@ -137,13 +137,6 @@ void YKE::setScene(const Scene& scene)
   m_currentScene = std::make_shared<Scene>(scene); 
 }
 
-std::shared_ptr<Entity> YKE::createEntity(const char* name)
-{
-  std::shared_ptr<Entity> entity = std::make_shared<Entity>();
-  entity->m_name = name;
-  return entity;
-
-}
 
 }
 

@@ -13,7 +13,7 @@ add_executable(${PROJECT_NAME} "sandbox/main.cpp" "src/Core/YKE.cpp" "src/Core/S
                                 "src/EC/Components/SpriteRenderer.cpp" "src/Utility/Time.cpp"
                                 "src/EC/Components/Camera.cpp" "src/Core/Physics.cpp"
                                 "src/EC/Components/BoxCollider.cpp" "src/Core/Window.cpp"
-                                "src/EC/Components/Transform.cpp")
+                                "src/EC/Components/Transform.cpp" "src/Core/YEC.cpp")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 set_project_warnings(${PROJECT_NAME})
 
