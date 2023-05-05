@@ -1,14 +1,13 @@
 #include <SFML/System/Vector2.hpp>
 #include <Yekate/EC/Components/Transform.hpp>
+#include <iostream>
 
 namespace Yekate
 {
 
 void Transform::start()
 {
-  canMove = false;
-  m_pos = sf::Vector2f(0,0);
-  printf("hi");
+  canMove = true;
 }
 
 void Transform::move(sf::Vector2f dir)
@@ -18,4 +17,5 @@ void Transform::move(sf::Vector2f dir)
     m_pos+=dir;
   }
 }
+
 }

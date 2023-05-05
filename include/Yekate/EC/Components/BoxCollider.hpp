@@ -13,16 +13,17 @@ namespace Yekate
 
 class BoxCollider:public Component
   {
+  private:
+    BoxCollider();
     public:
-    std::shared_ptr<Transform> trans;
+    Transform& m_trans;
     sf::Vector2f &m_size;
     
-
     sf::RectangleShape m_box;
     
     bool isColliding;
 
-    BoxCollider(std::shared_ptr<Transform> pos, sf::Vector2f& size):trans(pos),m_size(size){m_parent = nullptr;}
+    BoxCollider(Entity& en, sf::Vector2f& size);
 
     sf::Vector2f collisionDirection;
     void resetCollision();

@@ -10,14 +10,16 @@ namespace Yekate
 class Entity;
 class Component 
   {
+  private:
+    Component();
   public:
     virtual void start(){};
     virtual void update(){};
     virtual void render(Window&){};
 
-    std::shared_ptr<Entity> m_parent;
+    Entity& m_parent;
     virtual ~Component(){};
-    Component(){m_parent = nullptr;};
+    Component(Entity& parent):m_parent(parent){};
   };
 }
 #endif // !COMPONENT_HPP

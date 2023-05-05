@@ -5,6 +5,11 @@
 namespace Yekate
 {
 
+Entity::Entity(const char* name):m_name(name)
+{
+
+}
+
 void Entity::start()
 {
   for(const auto& comp: m_comps)
@@ -29,9 +34,4 @@ void Entity::render(Window& win)
 }
 
 
-void Entity::addComponent(std::shared_ptr<Component> comp)
-{
-  comp->m_parent =getptr();
-  m_comps.push_back(comp);
-}
 }

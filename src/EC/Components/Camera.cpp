@@ -6,7 +6,11 @@
 namespace Yekate
 {
 
-Camera::Camera(std::shared_ptr<Transform> pos):m_pos(pos) 
+Camera::Camera(Entity& en) : Component(en), m_trans(en.getComponent<Transform>())
+{
+  
+}
+void Camera::start()
 {
   m_view.setSize(1280,720);
 }
@@ -18,7 +22,6 @@ void Camera::render(Window& win)
 
 void Camera::update()
 {
-  m_view.setCenter(m_pos->m_pos.x,m_pos->m_pos.y);
+  m_view.setCenter(m_trans.m_pos.x,m_trans.m_pos.y);
 }
-
 }

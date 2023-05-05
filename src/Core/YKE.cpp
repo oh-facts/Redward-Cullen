@@ -16,7 +16,7 @@
 namespace Yekate
 {
 
-std::shared_ptr<Scene> YKE::m_currentScene = std::make_shared<Scene>();
+Scene YKE::m_currentScene;
 
 int YKE::m_totalScenes = 0;
 
@@ -33,14 +33,20 @@ void YKE::innit()
 }
 
 bool compareEntitiesByLayer(const std::shared_ptr<Yekate::Entity> a, const std::shared_ptr<Yekate::Entity> b ) {
+
+  if(a->hasComponent<SpriteRenderer>() && b->hasComponent<SpriteRenderer>())
+  {
   auto spriteA = a->getComponent<SpriteRenderer>();
   auto spriteB = b->getComponent<SpriteRenderer>();
-  if(spriteA && spriteB )
+
+  return spriteA.layer < spriteB.layer;
+  }
+  else
   {
-    return spriteA->layer < spriteB->layer;
+    return false;
   }
 
-  return false;
+
 }
 void YKE::run()
 {
@@ -48,13 +54,13 @@ void YKE::run()
 
   Physics physEngine;
 
-  //std::sort(m_currentScene->m_entitiesR.begin(), m_currentScene->m_entitiesR.end(), compareEntitiesByLayer);
+  //std::sort(m_currentScene.m_entities.begin(), m_currentScene.m_entities.end(), compareEntitiesByLayer);
   m_window.setActive(false);
 
   sf::Thread thread(&renderingThread);
   thread.launch();
 
-  for(const auto& entity: m_currentScene->m_entities)
+  for(const auto& entity: m_currentScene.m_entities)
   {
     entity->start();
   }
@@ -81,9 +87,9 @@ void YKE::run()
               mut.unlock();
             }
         }
-      physEngine.update(m_currentScene->m_entitiesP);
+      physEngine.update(m_currentScene.m_entities);
 
-      for(const auto& entity: m_currentScene->m_entities)
+      for(const auto& entity: m_currentScene.m_entities)
       {  
         entity->update();
       }
@@ -93,12 +99,9 @@ void YKE::run()
 }
 
 
-
 void YKE::renderingThread()
 {
   m_window.setActive(true);
-
-
 
   while (m_window.isOpen())
     {
@@ -109,8 +112,7 @@ void YKE::renderingThread()
 
         m_window.clear();
 
-
-        for(const auto& entity: m_currentScene->m_entities)
+        for(const auto& entity: m_currentScene.m_entities)
         {
           entity->render(m_window);
         }
@@ -134,7 +136,7 @@ Scene YKE::createScene()
 }
 void YKE::setScene(const Scene& scene)
 { 
-  m_currentScene = std::make_shared<Scene>(scene); 
+  m_currentScene = scene; 
 }
 
 

@@ -11,12 +11,16 @@ namespace Yekate
 
 class Camera: public Component
   {
+  private:
+    Camera();
     sf::View m_view;
-    std::shared_ptr<Transform> m_pos;
+    Transform& m_trans;
   public:
-    Camera(std::shared_ptr<Transform>);
+    Camera(Entity& en);
+    void start() override;
     void update() override;
     void render(Window&) override;
+    
   };
 }
 

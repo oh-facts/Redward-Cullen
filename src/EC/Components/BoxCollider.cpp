@@ -6,19 +6,28 @@
 #include <iostream>
 namespace Yekate
 {
+
+BoxCollider::BoxCollider(Entity& en,sf::Vector2f& size):Component(en), m_trans(en.getComponent<Transform>()), m_size(size)
+{
+
+}
+
 void BoxCollider::update()
 {
+  
   if(isColliding)
   {
-    //printf("%s : %.2f  %.2f\n",m_parent->m_name,collisionDirection.x,collisionDirection.y);
-    trans->canMove = false;
-    trans->m_pos-=collisionDirection;
+//    printf("%s : %.2f  %.2f\n",m_parent.m_name,collisionDirection.x,collisionDirection.y);
+    m_trans.canMove = false;
+    m_trans.m_pos-=collisionDirection;
   }
 else
   {
-    trans->canMove = true;
+    m_trans.canMove = true;
   }
-  m_box.setPosition(trans->m_pos);
+
+  //std::cout<<m_trans.m_pos.x<<std::endl;
+  m_box.setPosition(m_trans.m_pos);
 }
 void BoxCollider::render(Window& win)
 {
@@ -34,8 +43,8 @@ void BoxCollider::start()
   m_box.setSize(m_size);
   m_box.setOrigin(m_size/2.f);
 
-
-  m_box.setPosition(trans->m_pos);
+  isColliding = false;
+  m_box.setPosition(m_trans.m_pos);
 }
 
 void BoxCollider::resetCollision()

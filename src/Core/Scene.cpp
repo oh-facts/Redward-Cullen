@@ -2,6 +2,7 @@
 #include "Yekate/EC/Components/Camera.hpp"
 #include "Yekate/EC/Components/SpriteRenderer.hpp"
 #include <Yekate/Core/Scene.hpp>
+#include <memory>
 
 namespace Yekate
 {
@@ -10,16 +11,8 @@ void Scene::reset()
 {
   
 }
-void Scene::addEntity(std::shared_ptr<Entity> entity)
+void Scene::addEntity(Entity& entity)
 {
-  m_entities.push_back(entity);
-  if(entity->getComponent<BoxCollider>())
-  {
-    m_entitiesP.push_back(entity);
-  }
-  if(entity->getComponent<SpriteRenderer>() || entity->getComponent<Camera>())
-  {
-    m_entitiesR.push_back(entity);
-  }
+  m_entities.push_back(std::make_shared<Entity>(entity));
 }
 }

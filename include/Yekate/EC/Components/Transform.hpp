@@ -7,8 +7,11 @@ namespace Yekate
 {
 class Transform : public Component
   {
+  private:
+    Transform();
   public:
-    Transform(){canMove = true;}
+    Transform(Entity& en):Component(en){canMove = true;}
+    Transform(Entity& en, sf::Vector2f& pos):Component(en),m_pos(pos){canMove = true;}
     sf::Vector2f m_pos;
     void start() override;
     void move(sf::Vector2f dir);

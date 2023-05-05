@@ -25,7 +25,7 @@ public:
 
 
 private:
-  static std::shared_ptr<Scene> m_currentScene;
+  static Scene m_currentScene;
   static int m_totalScenes;
   static Window m_window; 
   static void renderingThread();
