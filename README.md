@@ -1,12 +1,10 @@
 # Redward Cullen
 
-The successor of Ball;Square, my previous engine. So, you can call it BS2
-
 The only library used is sfml because it can handle drawing, windowing and audio. Everything else is written by me.
 
 ### Features (oversimplified)
 
-1. Very easy to use and modular. Uses Components and is very decoupled.
+1. Very easy to use and modular. Component architecture makes it very decoupled.
 
 2. Cross platform
 
