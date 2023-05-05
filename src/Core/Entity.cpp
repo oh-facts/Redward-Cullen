@@ -1,9 +1,14 @@
 #include "Yekate/Core/Window.hpp"
-#include <Yekate/Core/Component.hpp>
 #include <Yekate/Core/Entity.hpp>
+#include <memory>
 
 namespace Yekate
 {
+
+Entity::Entity(const char* name):m_name(name)
+{
+
+}
 
 void Entity::start()
 {
@@ -29,8 +34,4 @@ void Entity::render(Window& win)
 }
 
 
-void Entity::addComponent(std::shared_ptr<Component> comp)
-{
-  m_comps.push_back(comp);
-}
 }
