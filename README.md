@@ -1,6 +1,6 @@
 # Redward Cullen
 
-The only library used is sfml because it can handle drawing, windowing and audio. Everything else is written by me.
+SFML is used to render graphics, everything else is written by me
 
 ### Features (oversimplified)
 
@@ -18,11 +18,9 @@ The only library used is sfml because it can handle drawing, windowing and audio
 
 1. Audio and gui. You can call sfml bindinigs to get them to work, but there is no engine support yet
 
-2. Sprite Masking. For custom colliders
+2. Event System
 
-3. Event System
-
-4. Develop current features further
+3. Develop current features further
 
 Check the wiki for detailed explanations and exact feature list.
 
