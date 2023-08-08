@@ -1,4 +1,4 @@
-### !! IMPORTANT !!
+# !! IMPORTANT !!
 
 Now that 3 months have passed, I have decided to declare this codebase the worst piece of software to glaze the internet. I am rebuilding this in a separate repository, which will be made public once the renderer is set up.
 
